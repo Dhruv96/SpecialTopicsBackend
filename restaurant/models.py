@@ -11,7 +11,8 @@ class Restaurant:
             "city": request.json['city'],
             "cuisine": request.json['cuisine'],
             "open_time": request.json['open_time'],
-            "close_time": request.json['close_time']
+            "close_time": request.json['close_time'],
+            "img_url": request.json.get('img_url', None)
         }
         print(restaurant)
         try:
@@ -32,7 +33,8 @@ class Restaurant:
                     "city": request.json['city'],
                     "cuisine": request.json['cuisine'],
                     "open_time": request.json['open_time'],
-                    "close_time": request.json['close_time']
+                    "close_time": request.json['close_time'],
+                    "img_url": request.json.get('img_url', None)
                 }
             })
             return jsonify({"message": "Restaurant updated"}), 200

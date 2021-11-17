@@ -9,6 +9,8 @@ db = client.mobile_meals
 
 from user import routes
 from restaurant import routes
+from dish import routes
+
 @app.route('/')
 def home():
     return "Home"
