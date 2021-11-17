@@ -8,6 +8,7 @@ client = pymongo.MongoClient("mongodb+srv://dhruv:dhruv123@cluster0.5pij5.mongod
 db = client.mobile_meals
 
 from user import routes
+from restaurant import routes
 @app.route('/')
 def home():
     return "Home"
