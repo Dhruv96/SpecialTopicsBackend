@@ -16,7 +16,7 @@ class Dish:
         try:
             db.dishes.insert_one(dish)
             print("Added")
-            return jsonify({"message": "Dish Added", "restaurant": dish}), 200
+            return jsonify({"message": "Dish Added", "dish": dish}), 200
         except Exception as ex:
             print(ex)
             return jsonify({"error": "Error while adding dish"}), 400 
@@ -36,7 +36,7 @@ class Dish:
             return jsonify({"message": "Dish updated"}), 200
         except Exception as ex:
             print(ex)
-            return jsonify({"error": "Cannot update restaurant"}), 500  
+            return jsonify({"error": "Cannot update dish"}), 500  
 
 
     def deleteDish(self, id):
