@@ -4,13 +4,13 @@ import uuid
 
 import cart
 
-class CartItem:
-     def __init__(self, itemId, quantity):
-        self.itemId = itemId
-        self.quantity = quantity
+# class CartItem:
+#      def __init__(self, itemId, quantity):
+#         self.itemId = itemId
+#         self.quantity = quantity
 
-     def reprJSON(self):
-        return dict(itemId=self.itemId, quantity=self.quantity)
+#      def reprJSON(self):
+#         return dict(itemId=self.itemId, quantity=self.quantity)
      
 
 class Cart:
@@ -19,12 +19,11 @@ class Cart:
             # userCart = db.carts.find_one({"_id": userId})
             # items_in_cart = userCart.json.get('items')
             # items_in_cart.append(mealId)
-            cartItem = CartItem(request.json.get('itemId'), request.json.get('quantity'))
+            cartItem = request.json['cart_item']
             db.carts.find_one_and_update(
                 {"_id": request.json['_id']},
                 {
-                    #"$set" : {"userId": request.json['userId']},
-                    "$push" : {"items": cartItem.reprJSON()}
+                    "$push" : {"items": cartItem}
                 }, upsert=True
             )
             return jsonify({"message": "Successfully added to cart"}), 200
@@ -32,3 +31,49 @@ class Cart:
             print(ex)
             return jsonify({"error": "Error while adding item to cart"}), 400
 
+    def updateCartItem(self):
+        try:
+            userCart = db.carts.find_one({
+                "_id": request.json['_id']
+            })
+
+            cart_item = request.json['cart_item']
+            print(userCart['items'])
+            for index, item in enumerate(userCart['items']):
+                if item['itemId'] == cart_item['itemId']:
+                    break
+                else:
+                    index = -1
+
+            if(index != -1):
+                userCart['items'][index] = cart_item
+                db.carts.find_one_and_update({
+                "_id": request.json['_id']},
+                {"$set" : {"items": userCart['items']}})
+
+            return jsonify({'message': "Successfully Updated"})
+
+        except Exception as ex:
+            print(ex)
+            return jsonify({"error": "Error while updating item in cart"}), 400 
+
+
+    def deleteCartItem(self):
+        cartItem = request.json['cart_item']
+        try:
+            userCart = db.carts.update_one({"_id": request.json['_id']},
+            {
+                "$pull": {"items": cartItem}
+            })
+            return jsonify({"message": "Successfully Deleted item"}), 200
+        except Exception as ex:
+            print(ex)
+            return jsonify({"error": "Unable to delete item"}), 400 
+
+    def getUserCart(self):
+        try:
+            userCart = db.carts.find_one({"_id": request.json["_id"]})
+            return jsonify({"message": "Success", "cart": userCart}), 200
+        except Exception as ex:
+            print(ex) 
+            return jsonify({"error": "Unable to get Cart"}), 400                   
