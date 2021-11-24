@@ -1,6 +1,9 @@
+import re
 from flask import Flask, request, jsonify
+from flask.json import dumps, loads
 from app import db
 import uuid
+from bson.json_util import CANONICAL_JSON_OPTIONS, dumps
 
 class Dish:
     def addNewDish(self):
@@ -54,4 +57,22 @@ class Dish:
             return jsonify({"message": "Success", "dishes": list_dishes}), 200
         except Exception as ex:
             print(ex)
-            return jsonify({"error": "Cannot fetch dishes"}), 500               
+            return jsonify({"error": "Cannot fetch dishes"}), 500   
+
+
+    def getSpecificDishes(self):
+        dishIds = request.args.getlist('dishId') 
+        print(dishIds)
+        try:
+            dishes = db.dishes.find({
+                "_id" : {
+                    "$in" : dishIds
+                }
+            })
+
+            cursor_list = list(dishes)
+            return jsonify({"message": "Success", "dishes": loads(dumps(cursor_list))})
+
+        except Exception as ex:
+            print(ex)
+            return jsonify({"error": "Unable to fetch dishes"})    

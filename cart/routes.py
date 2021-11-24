@@ -11,10 +11,10 @@ def addItemToCart():
 def updateItemInCart():
     return Cart().updateCartItem()
 
-@app.route("/cart/deleteItem", methods = ["DELETE"])    
-def deleteItemInCart():
-    return Cart().deleteCartItem()  
+@app.route("/cart/deleteItem/<userId>/<itemId>", methods = ["DELETE"])    
+def deleteItemInCart(userId, itemId):
+    return Cart().deleteCartItem(userId, itemId)  
 
-@app.route("/cart/userCart")
-def getUserCart():
-    return Cart().getUserCart()      
+@app.route("/cart/userCart/<userId>")
+def getUserCart(userId):
+    return Cart().getUserCart(userId)      

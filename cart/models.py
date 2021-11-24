@@ -58,21 +58,20 @@ class Cart:
             return jsonify({"error": "Error while updating item in cart"}), 400 
 
 
-    def deleteCartItem(self):
-        cartItem = request.json['cart_item']
+    def deleteCartItem(self, userId, itemId):
         try:
-            userCart = db.carts.update_one({"_id": request.json['_id']},
+            db.carts.update_one({"_id": userId},
             {
-                "$pull": {"items": cartItem}
+                "$pull": {"items": {"itemId": itemId}}
             })
             return jsonify({"message": "Successfully Deleted item"}), 200
         except Exception as ex:
             print(ex)
             return jsonify({"error": "Unable to delete item"}), 400 
 
-    def getUserCart(self):
+    def getUserCart(self, userId):
         try:
-            userCart = db.carts.find_one({"_id": request.json["_id"]})
+            userCart = db.carts.find_one({"_id": userId})
             return jsonify({"message": "Success", "cart": userCart}), 200
         except Exception as ex:
             print(ex) 
