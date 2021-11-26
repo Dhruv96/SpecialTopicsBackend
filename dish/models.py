@@ -63,13 +63,13 @@ class Dish:
     def getSpecificDishes(self):
         dishIds = request.args.getlist('dishId') 
         print(dishIds)
+        query = [
+             {"$match": {"_id": {"$in": dishIds}}},
+             {"$addFields": {"__order": {"$indexOfArray": [dishIds, "$_id" ]}}},
+             {"$sort": {"__order": 1}}
+            ]
         try:
-            dishes = db.dishes.find({
-                "_id" : {
-                    "$in" : dishIds
-                }
-            })
-
+            dishes = db.dishes.aggregate(query)
             cursor_list = list(dishes)
             return jsonify({"message": "Success", "dishes": loads(dumps(cursor_list))})
 
