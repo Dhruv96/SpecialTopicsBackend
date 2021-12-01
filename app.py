@@ -12,6 +12,7 @@ from user import routes
 from restaurant import routes
 from dish import routes
 from cart import routes
+from order import routes
 
 @app.route('/')
 def home():

@@ -3,6 +3,7 @@ from app import db
 import uuid
 
 import cart
+import user
 
 # class CartItem:
 #      def __init__(self, itemId, quantity):
@@ -75,4 +76,13 @@ class Cart:
             return jsonify({"message": "Success", "cart": userCart}), 200
         except Exception as ex:
             print(ex) 
-            return jsonify({"error": "Unable to get Cart"}), 400                   
+            return jsonify({"error": "Unable to get Cart"}), 400 
+
+    def clearCart(self, userId):
+        try:
+            db.carts.delete_one({"_id": userId})
+            return jsonify({"message": "Successfully Cleared Cart"}), 200   
+
+        except Exception as ex:
+            print(ex)
+            return jsonify({"error": "Unable to clear Cart"}), 400                           

@@ -17,4 +17,8 @@ def deleteItemInCart(userId, itemId):
 
 @app.route("/cart/userCart/<userId>")
 def getUserCart(userId):
-    return Cart().getUserCart(userId)      
+    return Cart().getUserCart(userId)  
+
+@app.route("/cart/clearCart/<userId>", methods = ["DELETE"])
+def clearCart(userId):
+    return Cart().clearCart(userId)        
