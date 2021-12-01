@@ -21,7 +21,9 @@ class User:
             "_id": uuid.uuid4().hex,
             "name": request.json.get('name'),
             "email": request.json.get('email'),
-            "password": request.json.get('password') 
+            "password": request.json.get('password'), 
+            "address": request.json.get('address'),
+            "city": request.json.get('city')
         }
         #encrypt user password
         user['password'] = pbkdf2_sha256.encrypt(user['password'])

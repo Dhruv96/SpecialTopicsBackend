@@ -17,3 +17,7 @@ def deleteRestaurant(id):
 @app.route("/restaurant/all")
 def getAllRestaurants():
     return Restaurant().getAllRestaurants() 
+
+@app.route("/restaurant/<restaurantId>") 
+def getSpecificRestaurant(restaurantId):
+    return Restaurant().getSpecificRestaurant(restaurantId)   
