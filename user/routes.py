@@ -13,3 +13,7 @@ def signout():
 @app.route('/user/signin', methods=['POST'])
 def signin():
     return User().login()
+
+@app.route('/user/updateUser', methods = ['PUT'])
+def updateUser():
+    return User().updateProfile()     
