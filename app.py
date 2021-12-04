@@ -13,6 +13,7 @@ from restaurant.routes import *
 from dish.routes import *
 from cart.routes import *
 from order.routes import *
+from ratings.routes import *
 
 # @app.route('/')
 # def home():
