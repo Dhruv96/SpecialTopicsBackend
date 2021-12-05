@@ -5,6 +5,7 @@ import uuid
 import restaurant
 
 class Restaurant:
+    # Function to add new restaurant
     def addNewRestaurant(self):
         restaurant = {
             "_id" : uuid.uuid4().hex,
@@ -25,6 +26,7 @@ class Restaurant:
             print("Exception")
             return jsonify({"error": "Error while adding restaurant"}), 400    
 
+    # Function to edit a restaurant
     def editRestaurant(self,id):
         try:
             db.restaurants.update_one({"_id": id},
@@ -45,6 +47,7 @@ class Restaurant:
             return jsonify({"error": "Cannot update restaurant"}), 500
 
 
+    # Function to delete a restaurant
     def deleteRestaurant(self, id):
         try:
             db.restaurants.delete_one({"_id": id})
@@ -53,6 +56,7 @@ class Restaurant:
             print(ex)
             return jsonify({"error": "Cannot delete restaurant"}), 500 
 
+    #Function to get all restauurant in a form of list
     def getAllRestaurants(self):
         try:
             cursor = db.restaurants.find({})
@@ -62,6 +66,7 @@ class Restaurant:
             print(ex)
             return jsonify({"error": "Cannot fetch restaurants"}), 500  
 
+    # Function to get specific restaurant
     def getSpecificRestaurant(self, restaurantId):
         try:
             restaurant = db.restaurants.find_one({"_id" : restaurantId})

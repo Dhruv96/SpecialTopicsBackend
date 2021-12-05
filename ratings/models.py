@@ -3,7 +3,9 @@ from app import db
 import uuid
 from flask.json import dumps, loads
 
+
 class UserRating:
+    # Function to add new rating 
     def addNewRating(self):
         userRating  = {
             "_id": uuid.uuid4().hex,
@@ -19,6 +21,7 @@ class UserRating:
             return jsonify({"error": "Error while adding rating"}), 500   
 
 
+    # Function to get all ratings for a restaurant
     def getRestaurantRating(self,restaurantId):
         restaurant_ratings = db.ratings.find({"restaurantId": restaurantId})
         ratingList = list(restaurant_ratings)

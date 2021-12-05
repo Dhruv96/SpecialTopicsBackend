@@ -1,25 +1,12 @@
 from flask import Flask, json, request, jsonify
 from app import db
-import uuid
 
-import cart
-import user
-
-# class CartItem:
-#      def __init__(self, itemId, quantity):
-#         self.itemId = itemId
-#         self.quantity = quantity
-
-#      def reprJSON(self):
-#         return dict(itemId=self.itemId, quantity=self.quantity)
      
 
 class Cart:
+    # function to add items in cart
     def addItemToCart(self):
         try:
-            # userCart = db.carts.find_one({"_id": userId})
-            # items_in_cart = userCart.json.get('items')
-            # items_in_cart.append(mealId)
             cartItem = request.json['cart_item']
             db.carts.find_one_and_update(
                 {"_id": request.json['_id']},
@@ -32,6 +19,7 @@ class Cart:
             print(ex)
             return jsonify({"error": "Error while adding item to cart"}), 400
 
+    # function to  update cart items
     def updateCartItem(self):
         try:
             userCart = db.carts.find_one({
@@ -58,7 +46,7 @@ class Cart:
             print(ex)
             return jsonify({"error": "Error while updating item in cart"}), 400 
 
-
+    # function to delete cart item from specific user's cart
     def deleteCartItem(self, userId, itemId):
         try:
             db.carts.update_one({"_id": userId},
@@ -70,6 +58,7 @@ class Cart:
             print(ex)
             return jsonify({"error": "Unable to delete item"}), 400 
 
+    # Function that returns user's cart
     def getUserCart(self, userId):
         try:
             userCart = db.carts.find_one({"_id": userId})
@@ -78,6 +67,7 @@ class Cart:
             print(ex) 
             return jsonify({"error": "Unable to get Cart"}), 400 
 
+    # function to clear user cart once order is placed
     def clearCart(self, userId):
         try:
             db.carts.delete_one({"_id": userId})

@@ -6,6 +6,7 @@ import uuid
 from bson.json_util import CANONICAL_JSON_OPTIONS, dumps
 
 class Dish:
+    # function to add new dish in a restaurant
     def addNewDish(self):
         dish = {
             "_id": uuid.uuid4().hex,
@@ -24,6 +25,7 @@ class Dish:
             print(ex)
             return jsonify({"error": "Error while adding dish"}), 400 
 
+    # Function to edit a dish
     def editDish(self, id):
         try:
             db.dishes.update_one({"_id": id},
@@ -41,7 +43,7 @@ class Dish:
             print(ex)
             return jsonify({"error": "Cannot update dish"}), 500  
 
-
+    #Function to delete a dish
     def deleteDish(self, id):
         try:
             db.dishes.delete_one({"_id": id})
@@ -50,6 +52,7 @@ class Dish:
             print(ex)
             return jsonify({"error": "Cannot delete dish"}), 500   
 
+    #Function to get all dishes of a specific restaurant
     def getAllDishes(self, restaurant_id):
         try:
             cursor = db.dishes.find({"restaurant_id": restaurant_id})
@@ -59,7 +62,7 @@ class Dish:
             print(ex)
             return jsonify({"error": "Cannot fetch dishes"}), 500   
 
-
+    #Function to get a specific dish from id    
     def getSpecificDishes(self):
         dishIds = request.args.getlist('dishId') 
         print(dishIds)

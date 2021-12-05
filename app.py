@@ -8,6 +8,7 @@ app.secret_key = "My secret key"
 client = pymongo.MongoClient("mongodb+srv://dhruv:dhruv123@cluster0.5pij5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 db = client.mobile_meals
 
+# importing routes from all modules..
 from user.routes import *
 from restaurant.routes import *
 from dish.routes import *
@@ -15,9 +16,6 @@ from cart.routes import *
 from order.routes import *
 from ratings.routes import *
 
-# @app.route('/')
-# def home():
-#     return "Home"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=True)
